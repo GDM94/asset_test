@@ -19,14 +19,14 @@ public class AnagraficaServiceImpl {
     public JSONObject jo = new JSONObject();
     public String urlDB = "http://localhost:8081/graphql";
 
-    public List<Anagrafica> getAllanagrafica() throws JSONException {
-        jo.put("query", "query {anagraficaAll { nome } }");
+    public LinkedHashMap getAllanagrafica() throws JSONException {
+        jo.put("query", "query {anagraficaAll { nome cognome } }");
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
-        ResponseEntity<List>  response = restTemplate.postForEntity(urlDB, entity, List.class);
+        ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
         System.out.println(response.getBody());
         return response.getBody();
     }

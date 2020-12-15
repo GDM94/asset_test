@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class AnagraficaController {
 
 
     @GetMapping   // GET Method for reading operation
-    public List<Anagrafica> getAllanagrafica() throws JSONException {
+    public LinkedHashMap getAllanagrafica() throws JSONException {
         return anagraficaService.getAllanagrafica();
     }
 
