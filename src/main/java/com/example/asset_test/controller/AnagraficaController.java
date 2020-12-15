@@ -17,9 +17,6 @@ import java.util.List;
 @RequestMapping("/anagrafica")
 public class AnagraficaController {
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
     @Autowired
     AnagraficaServiceImpl anagraficaService;
 
