@@ -25,27 +25,27 @@ public class AnagraficaController {
 
 
     @GetMapping   // GET Method for reading operation
-    public LinkedHashMap getAllanagrafica(@RequestHeader HttpHeaders headers) throws JSONException {
+    public LinkedHashMap<String, ?> getAllanagrafica(@RequestHeader HttpHeaders headers) throws JSONException {
         return anagraficaService.getAllanagrafica(headers);
     }
 
     @GetMapping("/{id}")    // GET Method for reading operation
-    public LinkedHashMap getAnagraficaById(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long anaId) throws JSONException {
+    public LinkedHashMap<String, ?> getAnagraficaById(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long anaId) throws JSONException {
         return anagraficaService.anagraficaById(headers, anaId);
     }
 
     @PostMapping   // GET Method for reading operation
-    public LinkedHashMap newAnagrafica(@RequestHeader HttpHeaders headers, @RequestBody Anagrafica ana) throws JSONException {
+    public LinkedHashMap<String, ?> newAnagrafica(@RequestHeader HttpHeaders headers, @RequestBody Anagrafica ana) throws JSONException {
         return anagraficaService.newAnagrafica(headers, ana.getIdana(), ana.getNome(), ana.getCognome());
     }
 
     @PutMapping("/{id}")
-    public LinkedHashMap updateAnagrafica(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") long anaId,  @RequestBody Anagrafica anaDetails) throws JSONException {
+    public LinkedHashMap<String, ?> updateAnagrafica(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") long anaId,  @RequestBody Anagrafica anaDetails) throws JSONException {
         return anagraficaService.updateAnagrafica(headers, anaId, anaDetails.getNome(), anaDetails.getCognome());
     }
 
     @DeleteMapping("/{id}")    // GET Method for reading operation
-    public LinkedHashMap deleteAnagrafica(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long anaId) throws JSONException {
+    public LinkedHashMap<String, ?> deleteAnagrafica(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long anaId) throws JSONException {
         return anagraficaService.deleteAnagrafica(headers, anaId);
     }
 
