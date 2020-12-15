@@ -13,11 +13,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Service
-public class AnagraficaServiceImpl implements AnagraficaService {
+public class AnagraficaServiceImpl  {
 
     public String ipDbRoot = "http://localhost:8081";
-
+/*
     @Override
     public Anagrafica newAnagrafica(Long id, String nome, String cognome) {
 
@@ -51,4 +52,8 @@ public class AnagraficaServiceImpl implements AnagraficaService {
 
 
             }
+
+ */
 }
+
+
