@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-
 @SpringBootApplication
 public class AssetTestApplication {
 
