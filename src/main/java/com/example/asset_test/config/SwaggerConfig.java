@@ -5,6 +5,7 @@ package com.example.asset_test.config;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,20 +18,10 @@ import org.springframework.util.StringUtils;
 @Configuration
 public class SwaggerConfig {
 
-    private String moduleName;
-    private String apiVersion;
-
-    public void SwaggerConfig(
-            @Value("${module-name}") String moduleName,
-            @Value("${api-version}") String apiVersion) {
-        this.moduleName = moduleName;
-        this.apiVersion = apiVersion;
-    }
-
     @Bean
     public OpenAPI customOpenAPI() {
-        final String securitySchemeName = "bearerAuth";
-        final String apiTitle = String.format("%s API", StringUtils.capitalize(moduleName));
+        final String securitySchemeName = "Authorization";
+        final String apiTitle = "API SWAGGER";
         return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(
@@ -38,11 +29,11 @@ public class SwaggerConfig {
                                 .addSecuritySchemes(securitySchemeName,
                                         new SecurityScheme()
                                                 .name(securitySchemeName)
-                                                .type(SecurityScheme.Type.HTTP)
-                                                .scheme("APIKey")
-                                                //.bearerFormat("JWT")
+                                                .in(SecurityScheme.In.HEADER)
+                                                .type(SecurityScheme.Type.APIKEY)
+                                                .scheme(String.valueOf(new StringSchema()._default("")))
                                 )
                 )
-                .info(new Info().title(apiTitle).version(apiVersion));
+                .info(new Info().title(apiTitle));
     }
 }

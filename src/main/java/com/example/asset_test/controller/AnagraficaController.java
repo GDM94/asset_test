@@ -3,6 +3,7 @@ package com.example.asset_test.controller;
 
 import com.example.asset_test.service.impl.AnagraficaServiceImpl;
 import com.example.communication.model.Anagrafica;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
