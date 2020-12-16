@@ -1,5 +1,6 @@
 package com.example.asset_test.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -14,8 +15,10 @@ import java.util.LinkedHashMap;
 @Service
 public class IndirizzoServiceImpl {
 
+    @Value("${ipDB}")
+    private String urlDB;
+
     public JSONObject jo = new JSONObject();
-    public String urlDB = "http://localhost:8081/graphql";
 
     public LinkedHashMap<String, ?> indirizzoAll(HttpHeaders headers) throws JSONException {
         jo.put("query", "query {indirizzoAll { idaddress descrizione } }");
