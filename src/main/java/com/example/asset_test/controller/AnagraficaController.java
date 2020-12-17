@@ -2,7 +2,7 @@ package com.example.asset_test.controller;
 
 
 import com.example.asset_test.service.impl.AnagraficaServiceImpl;
-import com.example.communication.model.Anagrafica;
+import com.example.communication.bean.AnagraficaBean;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,23 +24,23 @@ public class AnagraficaController {
 
 
     @GetMapping   // GET Method for reading operation
-    public List<Anagrafica> getAllanagrafica(@RequestHeader HttpHeaders headers) throws JSONException {
-        List<Anagrafica> anagraficaAll = anagraficaService.getAllanagrafica(headers);
+    public List<AnagraficaBean> getAllanagrafica(@RequestHeader HttpHeaders headers) throws JSONException {
+        List<AnagraficaBean> anagraficaAll = anagraficaService.getAllanagrafica(headers);
         return anagraficaAll;
     }
 
     @GetMapping("/{id}")    // GET Method for reading operation
-    public Anagrafica getAnagraficaById(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long anaId) throws JSONException {
+    public AnagraficaBean getAnagraficaById(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long anaId) throws JSONException {
         return anagraficaService.anagraficaById(headers, anaId);
     }
 
     @PostMapping   // GET Method for reading operation
-    public Anagrafica newAnagrafica(@RequestHeader HttpHeaders headers, @RequestBody Anagrafica ana) throws JSONException {
+    public AnagraficaBean newAnagrafica(@RequestHeader HttpHeaders headers, @RequestBody AnagraficaBean ana) throws JSONException {
         return anagraficaService.newAnagrafica(headers, ana.getIdana(), ana.getNome(), ana.getCognome());
     }
 
     @PutMapping("/{id}")
-    public Anagrafica updateAnagrafica(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") long anaId,  @RequestBody Anagrafica anaDetails) throws JSONException {
+    public AnagraficaBean updateAnagrafica(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") long anaId,  @RequestBody AnagraficaBean anaDetails) throws JSONException {
         return anagraficaService.updateAnagrafica(headers, anaId, anaDetails.getNome(), anaDetails.getCognome());
     }
 

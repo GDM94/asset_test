@@ -1,6 +1,6 @@
 package com.example.asset_test.service.impl;
 
-import com.example.communication.model.Anagrafica;
+import com.example.communication.bean.AnagraficaBean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -24,61 +24,44 @@ public class AnagraficaServiceImpl {
     public JSONObject jo = new JSONObject();
     RestTemplate restTemplate = new RestTemplate();
 
-    public List<Anagrafica> getAllanagrafica(HttpHeaders headers) throws JSONException {
+    public List<AnagraficaBean> getAllanagrafica(HttpHeaders headers) throws JSONException {
         jo.put("query", "query {anagraficaAll { idana nome cognome } }");
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
         try {
-            ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
-            LinkedHashMap<String,  List<Anagrafica>> body = response.getBody();
-            List<Anagrafica> result = body.get("anagraficaAll");
-            return result;
+            List<AnagraficaBean> response = restTemplate.postForObject(urlDB, entity, List.class);
+            return response;
         } catch (HttpStatusCodeException ex){
             return null;
         }
 
     }
 
-    public Anagrafica newAnagrafica(HttpHeaders headers, Long id, String nome, String cognome) throws JSONException {
-        String query = String.format("mutation {newAnagrafica(id: %s, nome: \"%s\", cognome: \"%s\") { nome cognome } }", id.toString(), nome, cognome);
+    public AnagraficaBean newAnagrafica(HttpHeaders headers, Long id, String nome, String cognome) throws JSONException {
+        String query = String.format("mutation {newAnagrafica(id: %s, nome: \"%s\", cognome: \"%s\") { idana nome cognome } }", id.toString(), nome, cognome);
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
-        ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
-        LinkedHashMap<String, Anagrafica> body = response.getBody();
-        Anagrafica result = body.get("newAnagrafica");
-        return result;
+        AnagraficaBean response = restTemplate.postForObject(urlDB, entity, AnagraficaBean.class);
+        return response;
     }
 
-    public Anagrafica anagraficaById(HttpHeaders headers, Long id) throws JSONException {
+    public AnagraficaBean anagraficaById(HttpHeaders headers, Long id) throws JSONException {
         String query = String.format("query {anagraficaById(id: %s) { idana nome cognome } }", id.toString());
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
-        ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
-        LinkedHashMap<String, Anagrafica> body = response.getBody();
-        System.out.println(body.toString());
-        System.out.println(body.values().toString());
-        System.out.println(body.values().getClass());
-        List<?> al = new ArrayList<>(body.values());
-        System.out.println(al.toString());
-        System.out.println(al.get(0).toString());
-        System.out.println(al.get(0).getClass());
-        Anagrafica ana = ObjectMapper.convertValue(body.values(), );
-        ArrayList<Anagrafica> result = new ArrayList<Anagrafica>(body.values());
-        Anagrafica anagrafica = result.get(0);
-        return anagrafica;
+        AnagraficaBean anagraficaBean = restTemplate.postForObject(urlDB, entity, AnagraficaBean.class);
+        return anagraficaBean;
     }
 
-    public Anagrafica updateAnagrafica(HttpHeaders headers, Long id, String nome, String cognome) throws JSONException {
-        String query = String.format("mutation {updateAnagrafica(id: %s, nome: \"%s\", cognome: \"%s\") { nome cognome } }", id.toString(), nome, cognome);
+    public AnagraficaBean updateAnagrafica(HttpHeaders headers, Long id, String nome, String cognome) throws JSONException {
+        String query = String.format("mutation {updateAnagrafica(id: %s, nome: \"%s\", cognome: \"%s\") { idana nome cognome } }", id.toString(), nome, cognome);
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
-        ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
-        LinkedHashMap<String, Anagrafica> body = response.getBody();
-        Anagrafica result = body.get("updateAnagrafica");
-        return result;
+        AnagraficaBean response = restTemplate.postForObject(urlDB, entity, AnagraficaBean.class);
+        return response;
     }
 
     public boolean deleteAnagrafica(HttpHeaders headers, Long id) throws JSONException {
@@ -86,10 +69,8 @@ public class AnagraficaServiceImpl {
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
-        ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
-        LinkedHashMap<String, Boolean> body = response.getBody();
-        boolean result = body.get("deleteAnagrafica");
-        return result;
+        Boolean response = restTemplate.postForObject(urlDB, entity, Boolean.class);
+        return response;
     }
 
 
