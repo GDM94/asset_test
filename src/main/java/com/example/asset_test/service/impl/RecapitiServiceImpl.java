@@ -26,7 +26,7 @@ public class RecapitiServiceImpl {
     RestTemplate restTemplate = new RestTemplate();
 
     public List<RecapitiBean> recapitoAll(HttpHeaders headers) throws JSONException {
-        jo.put("query", "query {recapitoAll { id idana numero_recapito tipo_recapito } }");
+        jo.put("query", "query {recapitoAll { idreca numero_recapito tipo_recapito anagrafica{idana nome cognome} } }");
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
         try {
@@ -39,7 +39,7 @@ public class RecapitiServiceImpl {
     }
 
     public RecapitiBean newRecapiti(HttpHeaders headers, Long id, Long idana, String tipo_recapito, String numero_recapito) throws JSONException {
-        String query = String.format("mutation {newRecapiti(id: %s, idana: %s, tipo_recapito: \"%s\", numero_recapito: \"%s\") { id tipo_recapito numero_recapito } }", id.toString(), idana.toString(), tipo_recapito, numero_recapito);
+        String query = String.format("mutation {newRecapiti(id: %s, idana: %s, tipo_recapito: \"%s\", numero_recapito: \"%s\") { idreca tipo_recapito numero_recapito anagrafica{idana nome cognome} } }", id.toString(), idana.toString(), tipo_recapito, numero_recapito);
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
@@ -48,7 +48,7 @@ public class RecapitiServiceImpl {
     }
 
     public RecapitiBean recapitoById(HttpHeaders headers, Long id) throws JSONException {
-        String query = String.format("query {recapitoById(id: %s) { id idana numero_recapito tipo_recapito } }", id.toString());
+        String query = String.format("query {recapitoById(id: %s) { idreca numero_recapito tipo_recapito anagrafica{idana nome cognome} } }", id.toString());
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
@@ -57,7 +57,7 @@ public class RecapitiServiceImpl {
     }
 
     public RecapitiBean updateRecapiti(HttpHeaders headers, Long id, String tipo_recapito, String numero_recapito) throws JSONException {
-        String query = String.format("mutation {updateRecapiti(id: %s, tipo_recapito: \"%s\", numero_recapito: \"%s\") { id numero_recapito tipo_recapito } }", id.toString(), tipo_recapito, numero_recapito);
+        String query = String.format("mutation {updateRecapiti(id: %s, tipo_recapito: \"%s\", numero_recapito: \"%s\") { idreca numero_recapito tipo_recapito anagrafica{idana nome cognome} } }", id.toString(), tipo_recapito, numero_recapito);
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
@@ -66,7 +66,7 @@ public class RecapitiServiceImpl {
     }
 
     public boolean deleteRecapiti(HttpHeaders headers, Long id) throws JSONException {
-        String query = String.format("mutation {deleteIndirizzo(id: %s)}", id.toString());
+        String query = String.format("mutation {deleteRecapiti(id: %s)}", id.toString());
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);

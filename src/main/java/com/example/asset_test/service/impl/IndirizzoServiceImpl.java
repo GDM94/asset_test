@@ -25,7 +25,7 @@ public class IndirizzoServiceImpl {
     RestTemplate restTemplate = new RestTemplate();
 
     public List<IndirizziBean> indirizzoAll(HttpHeaders headers) throws JSONException {
-        jo.put("query", "query {indirizzoAll { idaddress idana descrizione } }");
+        jo.put("query", "query {indirizzoAll { idaddress descrizione anagrafica{idana nome cognome} } }");
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
         try {
@@ -38,7 +38,7 @@ public class IndirizzoServiceImpl {
     }
 
     public IndirizziBean newIndirizzo(HttpHeaders headers, Long id, Long idana, String descrizione) throws JSONException {
-        String query = String.format("mutation {newIndirizzo(id: %s, idana: %s, descrizione: \"%s\") { id descrizione } }", id.toString(), idana.toString(), descrizione);
+        String query = String.format("mutation {newIndirizzo(id: %s, idana: %s, descrizione: \"%s\") { idaddress descrizione anagrafica{idana nome cognome}} }", id.toString(), idana.toString(), descrizione);
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
@@ -47,7 +47,7 @@ public class IndirizzoServiceImpl {
     }
 
     public IndirizziBean indirizzoById(HttpHeaders headers, Long id) throws JSONException {
-        String query = String.format("query {anagraficaById(id: %s) { id idana descrizione } }", id.toString());
+        String query = String.format("query {indirizzoById(id: %s) { idaddress descrizione anagrafica{idana nome cognome} } }", id.toString());
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
@@ -56,7 +56,7 @@ public class IndirizzoServiceImpl {
     }
 
     public IndirizziBean updateIndirizzo(HttpHeaders headers, Long id, String descrizione) throws JSONException {
-        String query = String.format("mutation {newIndirizzo(id: %s, descrizione: \"%s\") { id descrizione } }", id.toString(), descrizione);
+        String query = String.format("mutation {updateIndirizzo(id: %s, descrizione: \"%s\") { idaddress descrizione anagrafica{idana nome cognome}} }", id.toString(), descrizione);
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
