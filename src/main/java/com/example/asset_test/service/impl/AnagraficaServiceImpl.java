@@ -1,6 +1,7 @@
 package com.example.asset_test.service.impl;
 
 import com.example.communication.model.Anagrafica;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -56,6 +57,14 @@ public class AnagraficaServiceImpl {
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
         ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
         LinkedHashMap<String, Anagrafica> body = response.getBody();
+        System.out.println(body.toString());
+        System.out.println(body.values().toString());
+        System.out.println(body.values().getClass());
+        List<?> al = new ArrayList<>(body.values());
+        System.out.println(al.toString());
+        System.out.println(al.get(0).toString());
+        System.out.println(al.get(0).getClass());
+        Anagrafica ana = ObjectMapper.convertValue(body.values(), );
         ArrayList<Anagrafica> result = new ArrayList<Anagrafica>(body.values());
         Anagrafica anagrafica = result.get(0);
         return anagrafica;
