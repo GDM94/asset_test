@@ -1,9 +1,10 @@
 package com.example.asset_test.controller;
 
 
-import com.example.asset_test.service.impl.AnagraficaServiceImpl;
 import com.example.asset_test.service.impl.RecapitiServiceImpl;
-import com.example.communication.model.Anagrafica;
+import com.example.asset_test.service.impl.RecapitiServiceImpl;
+import com.example.communication.bean.RecapitiBean;
+import com.example.communication.model.RecapitiTelefonici;
 import com.example.communication.model.RecapitiTelefonici;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -11,37 +12,40 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/recapiti")
 public class RecapitiTelefoniciController {
 
     @Autowired
-    RecapitiServiceImpl recapitiService;
+    RecapitiServiceImpl recapitoService;
+
 
     @GetMapping   // GET Method for reading operation
-    public LinkedHashMap<String, ?> getAllrecapiti(@RequestHeader HttpHeaders headers) throws JSONException {
-        return recapitiService.getAllrecapiti(headers);
+    public List<RecapitiBean> recapitoAll(@RequestHeader HttpHeaders headers) throws JSONException {
+        List<RecapitiBean> recapitoAll = recapitoService.recapitoAll(headers);
+        return recapitoAll;
     }
 
     @GetMapping("/{id}")    // GET Method for reading operation
-    public LinkedHashMap<String, ?> getRecapitiById(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long recaId) throws JSONException {
-        return recapitiService.recapitoById(headers, recaId);
+    public RecapitiBean RecapitoById(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long recaId) throws JSONException {
+        return recapitoService.recapitoById(headers, recaId);
     }
 
     @PostMapping   // GET Method for reading operation
-    public LinkedHashMap<String, ?> newRecapiti(@RequestHeader HttpHeaders headers, @RequestBody RecapitiTelefonici reca) throws JSONException {
-        return recapitiService.newRecapiti(headers, reca.getIdreca(), reca.getIdana(), reca.getTipo_recapito(), reca.getNumero_recapito());
+    public RecapitiBean newRecapiti(@RequestHeader HttpHeaders headers, @RequestBody RecapitiBean reca) throws JSONException {
+        return recapitoService.newRecapiti(headers, reca.getIdreca(), reca.getIdana(), reca.getNumero_recapito(), reca.getTipo_recapito());
     }
 
     @PutMapping("/{id}")
-    public LinkedHashMap<String, ?> updateRecapiti(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") long recaId,  @RequestBody RecapitiTelefonici reca) throws JSONException {
-        return recapitiService.updateRecapiti(headers, recaId, reca.getTipo_recapito(), reca.getNumero_recapito());
+    public RecapitiBean updateRecapiti(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") long recaId,  @RequestBody RecapitiBean recaDetails) throws JSONException {
+        return recapitoService.updateRecapiti(headers, recaId, recaDetails.getNumero_recapito(), recaDetails.getTipo_recapito());
     }
 
     @DeleteMapping("/{id}")    // GET Method for reading operation
-    public LinkedHashMap<String, ?> deleteRecapiti(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long recaId) throws JSONException {
-        return recapitiService.deleteRecapiti(headers, recaId);
+    public boolean deleteRecapiti(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long recaId) throws JSONException {
+        return recapitoService.deleteRecapiti(headers, recaId);
     }
 
 }

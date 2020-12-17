@@ -1,6 +1,7 @@
 package com.example.asset_test.service.impl;
 
 
+import com.example.communication.bean.RecapitiBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -9,9 +10,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Service
 public class RecapitiServiceImpl {
@@ -20,53 +23,55 @@ public class RecapitiServiceImpl {
     private String urlDB;
 
     public JSONObject jo = new JSONObject();
+    RestTemplate restTemplate = new RestTemplate();
 
-    public LinkedHashMap<String, ?> getAllrecapiti(HttpHeaders headers) throws JSONException {
-        jo.put("query", "query {recapitoAll { tipo_recapito numero_recapito anagrafica{nome, cognome} } }");
-        RestTemplate restTemplate = new RestTemplate();
+    public List<RecapitiBean> recapitoAll(HttpHeaders headers) throws JSONException {
+        jo.put("query", "query {recapitoAll { id idana numero_recapito tipo_recapito } }");
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
-        ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
-        return response.getBody();
+        try {
+            List<RecapitiBean> response = restTemplate.postForObject(urlDB, entity, List.class);
+            return response;
+        } catch (HttpStatusCodeException ex) {
+            return null;
+        }
+
     }
 
-    public LinkedHashMap<String, ?> newRecapiti(HttpHeaders headers, Long id, Long idana, String tipo_recapito, String numero_recapito) throws JSONException {
-        String query = String.format("mutation {newRecapiti(id: %s, idana: %s, tipo_recapito: \"%s\", numero_recapito: \"%s\") { tipo_recapito numero_recapito anagrafica{nome, cognome} } }", id.toString(), idana.toString(), tipo_recapito, numero_recapito);
+    public RecapitiBean newRecapiti(HttpHeaders headers, Long id, Long idana, String tipo_recapito, String numero_recapito) throws JSONException {
+        String query = String.format("mutation {newRecapiti(id: %s, idana: %s, tipo_recapito: \"%s\", numero_recapito: \"%s\") { id tipo_recapito numero_recapito } }", id.toString(), idana.toString(), tipo_recapito, numero_recapito);
         jo.put("query", query);
-        RestTemplate restTemplate = new RestTemplate();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
-        ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
-        return response.getBody();
+        RecapitiBean response = restTemplate.postForObject(urlDB, entity, RecapitiBean.class);
+        return response;
     }
 
-    public LinkedHashMap<String, ?> recapitoById(HttpHeaders headers, Long id) throws JSONException {
-        String query = String.format("query {recapitoById(id: %s) { tipo_recapito numero_recapito anagrafica{nome, cognome} } }", id.toString());
+    public RecapitiBean recapitoById(HttpHeaders headers, Long id) throws JSONException {
+        String query = String.format("query {recapitoById(id: %s) { id idana numero_recapito tipo_recapito } }", id.toString());
         jo.put("query", query);
-        RestTemplate restTemplate = new RestTemplate();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
-        ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
-        return response.getBody();
+        RecapitiBean anagraficaBean = restTemplate.postForObject(urlDB, entity, RecapitiBean.class);
+        return anagraficaBean;
     }
 
-    public LinkedHashMap<String, ?> updateRecapiti(HttpHeaders headers, Long id, String tipo_recapito, String numero_recapito) throws JSONException {
-        String query = String.format("mutation {updateRecapiti(id: %s, tipo_recapito: \"%s\", numero_recapito: \"%s\") { tipo_recapito numero_recapito anagrafica{nome, cognome} } }", id.toString(), tipo_recapito, numero_recapito);
+    public RecapitiBean updateRecapiti(HttpHeaders headers, Long id, String tipo_recapito, String numero_recapito) throws JSONException {
+        String query = String.format("mutation {updateRecapiti(id: %s, tipo_recapito: \"%s\", numero_recapito: \"%s\") { id numero_recapito tipo_recapito } }", id.toString(), tipo_recapito, numero_recapito);
         jo.put("query", query);
-        RestTemplate restTemplate = new RestTemplate();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
-        ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
-        return response.getBody();
+        RecapitiBean response = restTemplate.postForObject(urlDB, entity, RecapitiBean.class);
+        return response;
     }
 
-    public LinkedHashMap<String, ?> deleteRecapiti(HttpHeaders headers, Long id) throws JSONException {
-        String query = String.format("mutation {deleteRecapiti(idreca: %s)}", id.toString());
+    public boolean deleteRecapiti(HttpHeaders headers, Long id) throws JSONException {
+        String query = String.format("mutation {deleteIndirizzo(id: %s)}", id.toString());
         jo.put("query", query);
-        RestTemplate restTemplate = new RestTemplate();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
-        ResponseEntity<LinkedHashMap> response = restTemplate.postForEntity(urlDB, entity, LinkedHashMap.class);
-        return response.getBody();
+        Boolean response = restTemplate.postForObject(urlDB, entity, Boolean.class);
+        return response;
     }
+
 }
