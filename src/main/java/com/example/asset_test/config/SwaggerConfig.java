@@ -31,9 +31,9 @@ public class SwaggerConfig {
                                                 .name(securitySchemeName)
                                                 .in(SecurityScheme.In.HEADER)
                                                 .type(SecurityScheme.Type.APIKEY)
-                                                .scheme(String.valueOf(new StringSchema()._default("")))
+                                                //.scheme(String.valueOf(new StringSchema()._default("")))
                                 )
                 )
-                .info(new Info().title(apiTitle));
+                .info(new Info().title(apiTitle).version("1.0.0"));
     }
 }

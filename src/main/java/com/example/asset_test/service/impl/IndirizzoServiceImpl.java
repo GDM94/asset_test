@@ -47,7 +47,7 @@ public class IndirizzoServiceImpl {
     }
 
     public IndirizziBean indirizzoById(HttpHeaders headers, Long id) throws JSONException {
-        String query = String.format("query {indirizzoById(id: %s) { idaddress descrizione anagrafica{idana nome cognome} } }", id.toString());
+        String query = String.format("query {indirizzoById(id: %s) { idaddress idana descrizione anagrafica{idana nome cognome} } }", id.toString());
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
