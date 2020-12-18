@@ -36,7 +36,7 @@ public class AnagraficaController {
 
     @PostMapping   // GET Method for reading operation
     public AnagraficaBean newAnagrafica(@RequestHeader HttpHeaders headers, @RequestBody AnagraficaBean ana) throws JSONException {
-        return anagraficaService.newAnagrafica(headers, ana.getIdana(), ana.getNome(), ana.getCognome());
+        return anagraficaService.newAnagrafica(headers, ana.getNome(), ana.getCognome());
     }
 
     @PutMapping("/{id}")

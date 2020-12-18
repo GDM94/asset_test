@@ -38,8 +38,8 @@ public class RecapitiServiceImpl {
 
     }
 
-    public RecapitiBean newRecapiti(HttpHeaders headers, Long id, Long idana, String tipo_recapito, String numero_recapito) throws JSONException {
-        String query = String.format("mutation {newRecapiti(id: %s, idana: %s, tipo_recapito: \"%s\", numero_recapito: \"%s\") { idreca tipo_recapito numero_recapito anagrafica{idana nome cognome} } }", id.toString(), idana.toString(), tipo_recapito, numero_recapito);
+    public RecapitiBean newRecapiti(HttpHeaders headers, Long idana, String tipo_recapito, String numero_recapito) throws JSONException {
+        String query = String.format("mutation {newRecapiti( idana: %s, tipo_recapito: \"%s\", numero_recapito: \"%s\") { idreca tipo_recapito numero_recapito anagrafica{idana nome cognome} } }", idana.toString(), tipo_recapito, numero_recapito);
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);

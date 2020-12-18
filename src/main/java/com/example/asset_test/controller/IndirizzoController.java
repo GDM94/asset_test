@@ -38,7 +38,7 @@ public class IndirizzoController {
 
     @PostMapping   // GET Method for reading operation
     public IndirizziBean newIndirizzo(@RequestHeader HttpHeaders headers, @RequestBody IndirizziBean ind) throws JSONException {
-        return indirizzoService.newIndirizzo(headers, ind.getIdaddress(), ind.getIdana(), ind.getDescrizione());
+        return indirizzoService.newIndirizzo(headers, ind.getIdana(), ind.getDescrizione());
     }
 
     @PutMapping("/{id}")

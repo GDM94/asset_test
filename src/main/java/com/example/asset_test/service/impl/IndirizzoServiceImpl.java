@@ -37,8 +37,8 @@ public class IndirizzoServiceImpl {
 
     }
 
-    public IndirizziBean newIndirizzo(HttpHeaders headers, Long id, Long idana, String descrizione) throws JSONException {
-        String query = String.format("mutation {newIndirizzo(id: %s, idana: %s, descrizione: \"%s\") { idaddress descrizione anagrafica{idana nome cognome}} }", id.toString(), idana.toString(), descrizione);
+    public IndirizziBean newIndirizzo(HttpHeaders headers, Long idana, String descrizione) throws JSONException {
+        String query = String.format("mutation {newIndirizzo(idana: %s, descrizione: \"%s\") { idaddress descrizione anagrafica{idana nome cognome}} }", idana.toString(), descrizione);
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);

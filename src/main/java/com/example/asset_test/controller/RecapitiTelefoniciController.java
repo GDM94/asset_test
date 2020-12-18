@@ -35,7 +35,7 @@ public class RecapitiTelefoniciController {
 
     @PostMapping   // GET Method for reading operation
     public RecapitiBean newRecapiti(@RequestHeader HttpHeaders headers, @RequestBody RecapitiBean reca) throws JSONException {
-        return recapitoService.newRecapiti(headers, reca.getIdreca(), reca.getIdana(), reca.getNumero_recapito(), reca.getTipo_recapito());
+        return recapitoService.newRecapiti(headers, reca.getIdana(), reca.getNumero_recapito(), reca.getTipo_recapito());
     }
 
     @PutMapping("/{id}")

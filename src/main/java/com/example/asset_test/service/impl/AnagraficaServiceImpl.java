@@ -37,8 +37,8 @@ public class AnagraficaServiceImpl {
 
     }
 
-    public AnagraficaBean newAnagrafica(HttpHeaders headers, Long id, String nome, String cognome) throws JSONException {
-        String query = String.format("mutation {newAnagrafica(id: %s, nome: \"%s\", cognome: \"%s\") { idana nome cognome } }", id.toString(), nome, cognome);
+    public AnagraficaBean newAnagrafica(HttpHeaders headers, String nome, String cognome) throws JSONException {
+        String query = String.format("mutation {newAnagrafica(nome: \"%s\", cognome: \"%s\") { idana nome cognome } }", nome, cognome);
         jo.put("query", query);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jo.toString(), headers);
